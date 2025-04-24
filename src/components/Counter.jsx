@@ -65,9 +65,11 @@ const Counter = () => {
         {counter === 0 && (
           <span className="message">{`Today is ${dayName} ${date} ${monthName} ${year}.`}</span>
         )}
-        {counter > 0 || (
+
+        {counter > 0 && (
           <span className="message">{`After ${counter} day from today is ${dayName} ${date} ${monthName}  ${year}.`}</span>
         )}
+
         {counter < 0 && (
           <span className="message">{`Before ${-counter} day from today is ${dayName} ${date} ${monthName}  ${year}.`}</span>
         )}
