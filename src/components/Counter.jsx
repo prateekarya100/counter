@@ -1,30 +1,30 @@
 import React, { useState } from "react";
+import Today from "./Today";
+import AfterDays from "./AfterDays";
+import BeforeDays from "./BeforeDays";
 
 const Counter = () => {
   const [step, setStep] = useState(0);
   const [counter, setCounter] = useState(0);
 
-  const daysToAddOrSubtract = counter; // change this number (+/-)
+  const daysToAddOrSubtract = counter;
 
   const today = new Date();
   const updatedDate = new Date(today);
   updatedDate.setDate(today.getDate() + daysToAddOrSubtract);
 
-  // Format parts
   const dayName = updatedDate.toLocaleString("en-US", { weekday: "long" });
   const date = updatedDate.getDate();
   const monthName = updatedDate.toLocaleDateString("en-US", { month: "long" });
   const year = updatedDate.getFullYear();
 
-  // Output sentence
-  // const direction = daysToAddOrSubtract >= 0 ? "after" : "before";
-  // console.log(`Step : 0+`);
-  // console.log(`Count : ${daysToAddOrSubtract}+`);
-  // console.log(
-  //   `After ${Math.abs(daysToAddOrSubtract)} day${
-  //     Math.abs(daysToAddOrSubtract) !== 1 ? "s" : ""
-  //   } from today is ${dayName} ${date} ${monthName} ${year}.`
-  // );
+  const dateInfo = {
+    dayName: dayName,
+    date: date,
+    monthName: monthName,
+    year: year,
+    counter: counter,
+  };
 
   function handleMinusOneStep() {
     setStep((step) => step - 1);
@@ -62,17 +62,11 @@ const Counter = () => {
           {`Count : ${counter}`}
           <button onClick={handlePlusOneCount}>+</button>
         </div>
-        {counter === 0 && (
-          <span className="message">{`Today is ${dayName} ${date} ${monthName} ${year}.`}</span>
-        )}
+        {counter === 0 && <Today dateInfo={dateInfo} />}
 
-        {counter > 0 && (
-          <span className="message">{`After ${counter} day from today is ${dayName} ${date} ${monthName}  ${year}.`}</span>
-        )}
+        {counter > 0 && <AfterDays dateInfo={dateInfo} />}
 
-        {counter < 0 && (
-          <span className="message">{`Before ${-counter} day from today is ${dayName} ${date} ${monthName}  ${year}.`}</span>
-        )}
+        {counter < 0 && <BeforeDays dateInfo={dateInfo} />}
       </div>
     </>
   );
