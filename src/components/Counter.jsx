@@ -5,10 +5,23 @@ const Counter = () => {
   const [counter, setCounter] = useState(0);
 
   const today = new Date();
-  const dayName = today.toLocaleString("en-US", { weekday: "long" }); // "Wednesday"
-  const monthName = today.toLocaleString("en-US", { month: "long" }); // "April"
-  const dateNumber = today.getDate(); // 23
-  const year = today.getFullYear(); // 2025
+  const daysToAddOrSubtract = counter; // can be positive or negative
+  const updatedDate = new Date(today);
+  updatedDate.setDate(today.getDate() + daysToAddOrSubtract);
+
+  // Extract parts
+  const dayName = updatedDate.toLocaleString("en-US", { weekday: "long" });
+  const date = updatedDate.getDate();
+  const monthName = updatedDate.toLocaleString("en-US", { month: "long" });
+  const year = updatedDate.getFullYear();
+
+  // Output
+  console.log(`Day: ${dayName}`);
+  console.log(`Date: ${date}`);
+  console.log(`Month: ${monthName}`);
+  console.log(`Year: ${year}`);
+
+  // const futureDate = new Date(today);
 
   //   console.log(`${new Date().getDate() + 1}`);
 
@@ -16,6 +29,14 @@ const Counter = () => {
   //   console.log(`Day :: ${dayName} `);
   //   console.log(`Month :: ${monthName} `);
   //   console.log(`Year :: ${year} `);
+
+  const todayDate = new Date();
+
+  const plusDays = todayDate.getDate() + counter;
+  const minusDays = todayDate.getDate() + counter;
+
+  // console.log(plusDays);
+  // console.log(minusDays);
 
   function handleMinusOneStep() {
     setStep((step) => step - 1);
@@ -25,11 +46,19 @@ const Counter = () => {
   }
 
   function handleMinusOneCount() {
-    setCounter((counter) => counter - 1);
+    if (step === 0) {
+      setCounter((counter) => counter - 1);
+    } else {
+      setCounter((counter) => counter - step);
+    }
   }
 
   function handlePlusOneCount() {
-    setCounter((counter) => counter + 1);
+    if (step === 0) {
+      setCounter((counter) => counter + 1);
+    } else {
+      setCounter((counter) => counter + step);
+    }
   }
 
   return (
@@ -46,14 +75,17 @@ const Counter = () => {
           <button onClick={handlePlusOneCount}>+</button>
         </div>
 
-        {/* FOR TODAY */}
-        <span className="message">{`Today is ${dayName} ${dateNumber} ${monthName} ${year}.`}</span>
+        {counter === 0 && (
+          <span className="message">{`Today is ${dayName} ${date} ${monthName} ${year}.`}</span>
+        )}
 
-        {/* FOR MORE DAYS */}
-        {/* <span className="message">{`Today is ${dayName} ${dateNumber} ${monthName} ${year}.`}</span> */}
+        {counter > 0 && (
+          <span className="message">{`After ${counter} day from today is ${dayName} ${plusDays} ${monthName}  ${year}.`}</span>
+        )}
 
-        {/* FOR DAYS BEFORE */}
-        {/* <span className="message">{`Today is ${dayName} ${dateNumber} ${monthName} ${year}.`}</span> */}
+        {counter < 0 && (
+          <span className="message">{`Before ${-counter} day from today is ${dayName} ${plusDays} ${monthName}  ${year}.`}</span>
+        )}
       </div>
     </>
   );
